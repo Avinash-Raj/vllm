@@ -280,6 +280,8 @@ class OpenAIServingCompletion(OpenAIServing):
         request_id = f"cmpl-{random_uuid()}"
         created_time = int(time.monotonic())
 
+        logger.info(f'Total prefixes found: {len(self.engine.engine.scheduler.prefix_pool.prefixes)}')
+
         # find prefix_pos for the given prefix
         prefix_pos = request.prefix_pos
         prefix = request.prefix or ''

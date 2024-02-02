@@ -1,7 +1,9 @@
 from typing import Dict, List, Sequence, Tuple, Optional
 
 from vllm.block import BlockTable
+from vllm.logger import init_logger
 
+logger = init_logger(__name__)
 
 class Prefix:
     """Data and states associated with a prefix of prompt tokens for multiple
@@ -83,5 +85,8 @@ class PrefixPool:
         prefix = Prefix(token_ids, self.block_size)
         prefix_hash = hash((prefix, lora_int_id))
         if prefix_hash not in self.prefixes:
+            logger.info("Prefix not found in the cache, so adding new.")
             self.prefixes[prefix_hash] = prefix
+        else:
+            logger.info("Prefix found in the cache")
         return self.prefixes[prefix_hash]

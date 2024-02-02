@@ -448,6 +448,7 @@ class LLMEngine:
         prefix = self.scheduler.prefix_pool.add_or_get_prefix(
             prompt_token_ids[:prefix_pos], lora_request.lora_int_id
             if lora_request else 0) if prefix_pos is not None else None
+        logger.info(f"Prefix hash for the request id ({request_id}): {prefix.hash}")
 
         # Create the sequence group.
         seq_group = SequenceGroup(request_id, [seq], sampling_params,
